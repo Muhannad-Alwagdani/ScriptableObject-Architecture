@@ -24,6 +24,17 @@ namespace ScriptableObjectArchitecture
                 Raise();
             }
         }
+        public virtual T DefaultValue
+        {
+            get
+            {
+                return _defaultValue;
+            }
+            set
+            {
+                _defaultValue = value;
+            }
+        }
         public virtual T MinClampValue
         {
             get
@@ -73,6 +84,8 @@ namespace ScriptableObjectArchitecture
         [SerializeField]
         protected T _value = default(T);
         [SerializeField]
+        protected T _defaultValue = default(T);
+        [SerializeField]
         private bool _readOnly = false;
         [SerializeField]
         private bool _raiseWarning = true;
@@ -82,7 +95,12 @@ namespace ScriptableObjectArchitecture
         protected T _minClampedValue = default(T);
         [SerializeField]
         protected T _maxClampedValue = default(T);
-        
+
+        public virtual T Reset()
+        {
+            return SetValue(DefaultValue);
+        }
+
         public virtual T SetValue(T value)
         {
             if (_readOnly)

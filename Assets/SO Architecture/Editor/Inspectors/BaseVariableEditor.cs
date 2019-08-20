@@ -12,6 +12,7 @@ namespace ScriptableObjectArchitecture.Editor
         protected bool IsClamped { get { return Target.IsClamped; } }
 
         private SerializedProperty _valueProperty;
+        private SerializedProperty _defaultValueProperty;
         private SerializedProperty _developerDescription;
         private SerializedProperty _readOnly;
         private SerializedProperty _raiseWarning;
@@ -26,6 +27,7 @@ namespace ScriptableObjectArchitecture.Editor
         protected virtual void OnEnable()
         {
             _valueProperty = serializedObject.FindProperty("_value");
+            _defaultValueProperty = serializedObject.FindProperty("_defaultValue");
             _developerDescription = serializedObject.FindProperty("DeveloperDescription");
             _readOnly = serializedObject.FindProperty("_readOnly");
             _raiseWarning = serializedObject.FindProperty("_raiseWarning");
@@ -54,6 +56,7 @@ namespace ScriptableObjectArchitecture.Editor
             {
                 string content = "Cannot display value. No PropertyDrawer for (" + Target.Type + ") [" + Target.ToString() + "]";
                 GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Value"), _valueProperty, new GUIContent(content, content));
+                GenericPropertyDrawer.DrawPropertyDrawerLayout(Target.Type, new GUIContent("Default Value"), _defaultValueProperty, new GUIContent(content, content));
 
                 if (scope.changed)
                 {
