@@ -21,7 +21,7 @@ namespace ScriptableObjectArchitecture.Editor
         private SerializedProperty _maxValueProperty;
         private AnimBool _raiseWarningAnimation;
         private AnimBool _isClampedVariableAnimation;
-
+        
         private const string READONLY_TOOLTIP = "Should this value be changable during runtime? Will still be editable in the inspector regardless";
 
         protected virtual void OnEnable()
@@ -46,9 +46,11 @@ namespace ScriptableObjectArchitecture.Editor
             serializedObject.Update();
 
             DrawValue();
+
+            EditorGUILayout.Space();
+
             DrawClampedFields();
             DrawReadonlyField();
-            DrawDeveloperDescription();
         }
         protected virtual void DrawValue()
         {
@@ -106,9 +108,19 @@ namespace ScriptableObjectArchitecture.Editor
                 }
             }
         }
-        protected void DrawDeveloperDescription()
+    }
+    [CustomEditor(typeof(BaseVariable<,>), true)]
+    public class BaseVariableWithEventEditor : BaseVariableEditor
+    {
+        public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_developerDescription);
+            base.OnInspectorGUI();
+
+            EditorGUILayout.Space();
+
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("_event"));
+
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }

@@ -1,8 +1,12 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ScriptableObjectArchitecture
 {
+    [System.Serializable]
+    public class SceneInfoEvent : UnityEvent<SceneInfo> { }
+
     /// <summary>
     /// <see cref="SceneVariable"/> is a scriptable constant variable whose scene values are assigned at
     /// edit-time by assigning a <see cref="UnityEditor.SceneAsset"/> instance to it.
@@ -11,7 +15,7 @@ namespace ScriptableObjectArchitecture
         fileName = "SceneVariable.asset",
         menuName = SOArchitecture_Utility.ADVANCED_VARIABLE_SUBMENU + "Scene",
         order = 120)]
-    public sealed class SceneVariable : BaseVariable<SceneInfo>
+    public sealed class SceneVariable : BaseVariable<SceneInfo, SceneInfoEvent>
     {
         /// <summary>
         /// Returns the <see cref="SceneInfo"/> of this instance.
@@ -77,6 +81,8 @@ namespace ScriptableObjectArchitecture
         }
         #endif
 
+        #pragma warning disable 0649
+
         [SerializeField]
         private string _sceneName;
 
@@ -85,6 +91,8 @@ namespace ScriptableObjectArchitecture
 
         [SerializeField]
         private bool _isSceneEnabled;
+
+        #pragma warning restore 0649
 
         public SceneInfo()
         {
